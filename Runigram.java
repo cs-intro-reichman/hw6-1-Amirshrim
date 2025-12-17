@@ -76,31 +76,31 @@ public class Runigram {
 	 * Returns an image which is the horizontally flipped version of the given image. 
 	 */
 	public static Color[][] flippedHorizontally(Color[][] image) {
-		int numCols = image.length;
-		int numRows = image[0].length;
-		Color[][] kenny = new Color[numRows][numCols];
-		for (int i=0; i<numCols;i++){
-			for (int j=numCols-1; j>=0; j++){
-				kenny[i][numRows-1-j] = image[i][j];  
-			}
-		}
-		return kenny;
-	}
-	
-	/**
-	 * Returns an image which is the vertically flipped version of the given image. 
-	 */
-	public static Color[][] flippedVertically(Color[][] image){
-		int numCols = image.length;
-		int numRows = image[0].length;
-		Color[][] kenny = new Color[numRows][numCols];
-		for (int j=0; j<numRows;j++){
-			for (int i=numCols-1; i>=0; i++){
-				kenny[numCols-1-i][numRows] = image[i][j];  
-			}
-		}
-		return kenny;
-	}
+    int numCols = image.length;
+    int numRows = image[0].length;
+    Color[][] flipped = new Color[numCols][numRows]; 
+    
+    for (int i = 0; i < numCols; i++) {
+        for (int j = 0; j < numRows; j++) {
+            flipped[numCols - 1 - i][j] = image[i][j];
+        }
+    }
+    return flipped;
+}
+
+public static Color[][] flippedVertically(Color[][] image) {
+    int numCols = image.length;
+    int numRows = image[0].length;
+    Color[][] flipped = new Color[numCols][numRows];
+    
+    for (int i = 0; i < numCols; i++) {
+        for (int j = 0; j < numRows; j++) {
+            // היפוך אנכי: העמודה i נשארת, השורה הופכת להיות "המרחק מהסוף"
+            flipped[i][numRows - 1 - j] = image[i][j];
+        }
+    }
+    return flipped;
+}
 
 		
 	
@@ -121,17 +121,29 @@ public class Runigram {
 	 * Returns an image which is the grayscaled version of the given image.
 	 */
 	public static Color[][] grayScaled(Color[][] image) {
-		int numCols = image.length;
-		int numRows = image[0].length;
-		Color[][] kenny = new Color[numRows][numCols];
-		for(int i=0;i<numCols;i++){
-			for (int j = 0; j < numRows; j++) {
+    int numCols = image.length;
+    int numRows = image[0].length;
+    // יצירת מערך חדש באותו הגודל
+    Color[][] grayImage = new Color[numCols][numRows];
 
-				
-			}
-		}
-		return null;
-	}	
+    for (int i = 0; i < numCols; i++) {
+        for (int j = 0; j < numRows; j++) {
+            Color pixel = image[i][j];
+            
+            // חילוץ ערכי ה-RGB
+            int r = pixel.getRed();
+            int g = pixel.getGreen();
+            int b = pixel.getBlue();
+            
+            // חישוב הממוצע (הפיכה לאפור)
+            int avg = (r + g + b) / 3;
+            
+            // יצירת אובייקט צבע חדש שבו כל הערוצים זהים לממוצע
+            grayImage[i][j] = new Color(avg, avg, avg);
+        }
+    }
+    return grayImage;
+}
 	
 	/**
 	 * Returns an image which is the scaled version of the given image. 
