@@ -76,30 +76,30 @@ public class Runigram {
 	 * Returns an image which is the horizontally flipped version of the given image. 
 	 */
 	public static Color[][] flippedHorizontally(Color[][] image) {
-    int numCols = image.length;
-    int numRows = image[0].length;
-    Color[][] flipped = new Color[numCols][numRows]; 
-    
-    for (int i = 0; i < numCols; i++) {
-        for (int j = 0; j < numRows; j++) {
-            flipped[numCols - 1 - i][j] = image[i][j];
+    int height = image.length;
+    int width = image[0].length;
+    Color[][] newImage = new Color[height][width];
+
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            newImage[i][width - 1 - j] = image[i][j];
         }
     }
-    return flipped;
+    return newImage;
 }
 
 public static Color[][] flippedVertically(Color[][] image) {
-    int numCols = image.length;
-    int numRows = image[0].length;
-    Color[][] flipped = new Color[numCols][numRows];
-    
-    for (int i = 0; i < numCols; i++) {
-        for (int j = 0; j < numRows; j++) {
-            // היפוך אנכי: העמודה i נשארת, השורה הופכת להיות "המרחק מהסוף"
-            flipped[i][numRows - 1 - j] = image[i][j];
+    int height = image.length;
+    int width = image[0].length;
+    Color[][] newImage = new Color[height][width];
+
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+			            
+            newImage[height - 1 - i][j] = image[i][j];
         }
     }
-    return flipped;
+    return newImage;
 }
 
 		
@@ -121,28 +121,18 @@ public static Color[][] flippedVertically(Color[][] image) {
 	 * Returns an image which is the grayscaled version of the given image.
 	 */
 	public static Color[][] grayScaled(Color[][] image) {
-    int numCols = image.length;
-    int numRows = image[0].length;
-    // יצירת מערך חדש באותו הגודל
-    Color[][] grayImage = new Color[numCols][numRows];
+    int height = image.length;
+    int width = image[0].length;
+    Color[][] newImage = new Color[height][width];
 
-    for (int i = 0; i < numCols; i++) {
-        for (int j = 0; j < numRows; j++) {
-            Color pixel = image[i][j];
-            
-            // חילוץ ערכי ה-RGB
-            int r = pixel.getRed();
-            int g = pixel.getGreen();
-            int b = pixel.getBlue();
-            
-            // חישוב הממוצע (הפיכה לאפור)
-            int avg = (r + g + b) / 3;
-            
-            // יצירת אובייקט צבע חדש שבו כל הערוצים זהים לממוצע
-            grayImage[i][j] = new Color(avg, avg, avg);
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width; j++) {
+            Color c = image[i][j];
+            int lum = (int) (0.299 * c.getRed() + 0.587 * c.getGreen() + 0.114 * c.getBlue());
+            newImage[i][j] = new Color(lum, lum, lum);
         }
     }
-    return grayImage;
+    return newImage;
 }
 	
 	/**
@@ -223,22 +213,17 @@ public static Color[][] flippedVertically(Color[][] image) {
 		StdDraw.setCanvasSize(height, width);
 		StdDraw.setXscale(0, width);
 		StdDraw.setYscale(0, height);
-        // Enables drawing graphics in memory and showing it on the screen only when
-		// the StdDraw.show function is called.
 		StdDraw.enableDoubleBuffering();
 	}
 
-	/** Displays the given image on the current canvas. */
 	public static void display(Color[][] image) {
 		int height = image.length;
 		int width = image[0].length;
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < width; j++) {
-				// Sets the pen color to the pixel color
 				StdDraw.setPenColor( image[i][j].getRed(),
 					                 image[i][j].getGreen(),
 					                 image[i][j].getBlue() );
-				// Draws the pixel as a filled square of size 1
 				StdDraw.filledSquare(j + 0.5, height - i - 0.5, 0.5);
 			}
 		}
