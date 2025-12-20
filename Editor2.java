@@ -9,8 +9,20 @@ import java.awt.Color;
  */
 public class Editor2 {
 
-	public static void main (String[] args){
-		//// Replace this comment with your code.
-		//// This function is similar to the main function of Editor1.java			
-	}
+    public static void main (String[] args){
+        /// Retrieves the image filename and the desired target dimensions
+        String fileName = args[0];
+        int width = Integer.parseInt(args[1]);
+        int height = Integer.parseInt(args[2]);
+
+        /// Reads the source image from the file
+        Color[][] imageIn = Runigram.read(fileName);
+
+        /// Creates a new image by scaling the source image to the target dimensions
+        Color[][] scaledImage = Runigram.scaled(imageIn, width, height);
+
+        /// Sets the canvas to the new dimensions and displays the scaled image
+        Runigram.setCanvas(scaledImage);
+        Runigram.display(scaledImage);
+    }
 }
